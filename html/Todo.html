@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        background-image: linear-gradient(to right, rgb(92, 145, 229), rgb(152, 63, 198));
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+    }
+
+    input {
+        padding: 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        cursor: pointer;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #text {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 300px;
+        padding: 10px;
+        margin: 10px;
+        font-size: 20px;
+        color: white;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+
+    button {
+        padding: 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+        cursor: pointer;
+    }
+
+    .form {
+        display: flex;
+        justify-content: center;
+    }
+
+    .textValue {
+        padding: 10px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        display: flex;
+    }
+</style>
+
+<body>
+    <h1>To Do List</h1>
+    <div class="form">
+        <input type="text" name="task" id="task" placeholder="Enter Task">
+        <input type="submit" value="Add Task" class="btn">
+    </div>
+
+    <ul id="text">
+    </ul>
+
+
+    <script>
+        let inputElement = document.getElementById('task');
+        let btnElement = document.querySelector('.btn');
+        let textElement = document.getElementById('text');
+        
+        const addTodoListLocalStorage = (localTodoList) => {
+            return localStorage.setItem('task', JSON.stringify(localTodoList));
+        }
+
+        const getTodoListFromLocal = () => {
+            return JSON.parse(localStorage.getItem('task')) || []
+        };
+
+
+        let localTodoList = getTodoListFromLocal() || [];
+
+
+        const addTodoDynamicElement = (curEle) => {
+
+
+            const divElement = document.createElement('div');
+
+            divElement.classList.add('textValue');
+            divElement.innerHTML = `<li> ${curEle} </li> <button class="deleteBtn">Delete</button>`;
+
+            textElement.appendChild(divElement);
+
+            let deleteBtn = divElement.querySelector('.deleteBtn');
+
+            deleteBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                let todoToRemove = e.target.previousElementSibling.textContent.trim();
+                let parentElement = e.target.parentElement;
+                parentElement.remove();
+
+                localTodoList = localTodoList.filter((curEle) => curEle !== todoToRemove);
+
+                // Save the updated list to localStorage
+                addTodoListLocalStorage(localTodoList);
+            });
+
+        }
+
+
+        btnElement.addEventListener('click', function (e) {
+            e.preventDefault();
+            const todoListValue = inputElement.value.trim();
+
+            if (!todoListValue) {
+                alert("Task cannot be empty!");
+                return;
+            }
+
+            if (!localTodoList.includes(todoListValue)) {
+                localTodoList.push(todoListValue);
+                addTodoListLocalStorage(localTodoList);
+                addTodoDynamicElement(todoListValue);
+            }
+
+            inputElement.value = '';
+        });
+
+
+
+        const showTodoList = () => {
+            localTodoList.forEach((curEle) => {
+                addTodoDynamicElement(curEle);
+            });
+        }
+
+        showTodoList();
+
+
+    </script>
+</body>
+
+</html>

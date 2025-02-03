@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-image: linear-gradient(to right top,
+                     #051937,
+                    #004d7a,
+                     #008793,
+                     #00bf72,
+                     #a8eb12
+            );
+            }
+
+            section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                color: white;
+            }
+
+            button {
+                padding: 10px 20px;
+                margin: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: white;
+                color: black;
+                cursor: pointer;
+            }
+
+            .copyCode {
+                padding: 10px;
+                background-color: white;
+                color: black;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1>Background Color Changer</h1>
+        <div>
+            <button id="btn1">#5B06D2</button>
+            <button id="btn2">#34BC59</button>
+        </div>
+        <h2>click to copy the code</h2>
+        <div class="copyCode">
+            background-image: linear-gradient(to right, rgb(92, 145, 229), rgb(152,
+            63, 198));
+        </div>
+    </section>
+
+    <script>
+        let btn1 = document.getElementById('btn1');
+        let btn2 = document.getElementById('btn2');
+        let copyCode = document.querySelector('.copyCode');
+        let rgb1 = '#000';
+        let rgb2 = '#fff';
+
+        let hexCode = () => {
+            let hexCode = '0123456789abcdef';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color = color + hexCode[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        btn1.addEventListener('click', function () {
+            rgb1 = hexCode();
+            btn1.textContent = rgb1;
+            document.body.style.backgroundImage = `linear-gradient(to right, ${rgb1}, ${rgb2})`;
+            copyCode.innerHTML = document.body.style.backgroundImage = `background-image:linear-gradient(to right, ${rgb1}, ${rgb2})`;
+        });
+
+        btn2.addEventListener('click', function () {
+            rgb2 = hexCode();
+            btn2.textContent = rgb2;
+            document.body.style.backgroundImage = `linear-gradient(to right, ${rgb1}, ${rgb2})`;
+            copyCode.innerHTML = document.body.style.backgroundImage = `background-image:linear-gradient(to right, ${rgb1}, ${rgb2})`;
+        });
+
+        copyCode.addEventListener('click', function () {
+            navigator.clipboard.writeText(copyCode.innerText);
+            alert('Code copied to clipboard');
+        });
+
+    </script>
+</body>
+
+</html>
