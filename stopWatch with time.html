@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch with Time</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+
+        .StopWatch {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .Display {
+            font-size: 60px;
+            font-weight: bold;
+            color: #00ffcc;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.7);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        #Start {
+            background-color: #00cc66;
+        }
+
+        #Start:hover {
+            background-color: #00b359;
+        }
+
+        #Stop {
+            background-color: #ff4444;
+        }
+
+        #Stop:hover {
+            background-color: #cc3636;
+        }
+
+        #Reset {
+            background-color: #ff9933;
+        }
+
+        #Reset:hover {
+            background-color: #e68a2e;
+        }
+
+        #getTime {
+            background-color: #3399ff;
+        }
+
+        #getTime:hover {
+            background-color: #2d87e5;
+        }
+
+        #clearTime {
+            background-color: #666666;
+        }
+
+        #clearTime:hover {
+            background-color: #555555;
+        }
+
+        .Time {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #00ffcc;
+        }
+
+        .textShow {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 5px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="StopWatch">
+
+        <div class="Display">0</div>
+        <button id="Start">Start</button>
+        <button id="Stop">Stop</button>
+        <button id="Reset">Reset</button>
+        <button id="getTime">getTime</button>
+        <button id="clearTime">clearTIme</button>
+        <div class="Time"></div>
+    </div>
+
+    <script>
+
+        const display = document.querySelector('.Display');
+        const start = document.getElementById('Start');
+        const stop = document.getElementById('Stop');
+        const reset = document.getElementById('Reset');
+        const getTime = document.getElementById('getTime');
+        const clearTime = document.getElementById('clearTime');
+        const Time = document.querySelector('.Time');
+
+        const watch = {
+            time: 0,
+            timer: null,
+            isRunning: false
+        }
+
+        start.addEventListener('click', () => {
+            if (!watch.isRunning) {
+                watch.isRunning = true;
+                watch.timer = setInterval(() => {
+                    watch.time++;
+                    display.innerText = watch.time;
+                }, 1000)
+            }
+        })
+        stop.addEventListener('click', () => {
+            if (watch.isRunning) {
+                watch.isRunning = false;
+                clearInterval(watch.timer);
+            }
+        })
+
+        reset.addEventListener('click', () => {
+            watch.time = 0;
+            display.innerText = watch.time;
+            if (watch.isRunning) {
+                watch.isRunning = false;
+                clearInterval(watch.timer);
+            }
+        });
+
+
+        getTime.addEventListener('click', () => {
+
+            const showTime = document.createElement('div');
+
+            showTime.classList.add('textShow')
+            showTime.style.backgroundColor = `rgba(255, 255, 255, 0.1)`;
+            showTime.style.color = `white`;
+            showTime.innerHTML = `<p>The stop time is ${watch.time}</p>`;
+            Time.appendChild(showTime);
+        })
+
+        clearTime.addEventListener('click', () => {
+            Time.innerHTML = '';
+        })
+
+
+    </script>
+
+</body>
+
+</html>
