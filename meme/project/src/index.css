@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .rounded-button {
+    @apply rounded-lg;
+  }
+}
+
+/* Swiper styles */
+.swiper-pagination-bullet {
+  @apply bg-gray-300 opacity-100;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-indigo-600;
+}
